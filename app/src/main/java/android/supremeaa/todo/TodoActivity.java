@@ -2,35 +2,33 @@ package android.supremeaa.todo;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.supremeaa.todo.Controller.TaskSerializer;
+import android.supremeaa.todo.Model.Task;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 
 public class TodoActivity extends Activity {
+
+    protected ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo);
-    }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.todo, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        Task task = new Task("Clean Room", "2-26-2015", 1);
+        JSONObject jsonObject = TaskSerializer.toJSONObject(task);
+        try {
+            TaskSerializer.writeJSONfile(jsonObject);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return super.onOptionsItemSelected(item);
+        //listView = (ListView)findViewById(R.id.listView);
     }
 }
