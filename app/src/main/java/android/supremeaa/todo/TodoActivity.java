@@ -1,34 +1,41 @@
 package android.supremeaa.todo;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.supremeaa.todo.Controller.TaskSerializer;
 import android.supremeaa.todo.Model.Task;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ListView;
+import android.widget.TextView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 
-public class TodoActivity extends Activity {
+public class TodoActivity extends Activity  {
 
-    protected ListView listView;
+    protected TextView textView;
+    public static Context context;
+    public static JSONObject jsonObject;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo);
-
-        Task task = new Task("Clean Room", "2-26-2015", 1);
-        JSONObject jsonObject = TaskSerializer.toJSONObject(task);
+        TodoActivity.context = getApplicationContext();
         try {
-            TaskSerializer.writeJSONfile(jsonObject);
-        } catch (IOException e) {
+            this.jsonObject = new JSONObject(TaskSerializer.loadJSONFromAsset(TodoActivity.context));
+        } catch (JSONException e) {
             e.printStackTrace();
         }
+        Task task = new Task("","",0);
+
+        TaskSerializer.fromJSONObject(task, jsonObject);
+        textView = (TextView)findViewById(R.id.textView);
+        textView.setText(task.title);
         //listView = (ListView)findViewById(R.id.listView);
     }
+
 }
