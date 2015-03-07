@@ -17,11 +17,11 @@ public class TodoActivity extends Activity {
 
 
         setContentView(R.layout.activity_todo);
-        String clean_room = "clean the room";
-        String mowe_lawn = "mowe lawn";
-        String go_to_store = "go to the store";
-        String wash_car = "wash the car";
-        String walk_dog = "walk the dog";
+        String clean_room = "Clean The Room";
+        String mowe_lawn = "Mow Lawn";
+        String go_to_store = "Go To The Store";
+        String wash_car = "Wash The Car";
+        String walk_dog = "Walk The Dog";
 
 
         String[] listItems = new String[5];
