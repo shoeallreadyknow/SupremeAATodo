@@ -32,7 +32,7 @@ public class TodoActivity extends Activity {
         listItems[4] = walk_dog;
 
 
-        ArrayAdapter<String> listItemAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
+        ArrayAdapter<String> listItemAdapter = new ArrayAdapter<String>(this, R.layout.center_layout, R.id.taskName, listItems);
         ListView lv = (ListView) this.findViewById(R.id.listView);
         lv.setAdapter(listItemAdapter);
 
