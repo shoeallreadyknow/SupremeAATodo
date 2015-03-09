@@ -6,9 +6,9 @@ package android.supremeaa.todo.Model;
 public class Task {
     public String title;
     public String date;
-    public int priority;
+    public String priority;
 
-    public Task(String title, String date, int priority){
+    public Task(String title, String date, String priority){
         // Sets all the blog post data
         this.title = title;
         this.date = date;
@@ -26,10 +26,10 @@ public class Task {
     public void setDate(String date){
         this.date = date;
     }
-    public int getPriority(){
+    public String getPriority(){
         return priority;
     }
-    public void setPriority(int priority){
+    public void setPriority(String priority){
         this.priority = priority;
     }
 
