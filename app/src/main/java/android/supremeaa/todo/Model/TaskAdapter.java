@@ -56,9 +56,11 @@ public class TaskAdapter extends  ArrayAdapter<Task>{
             if(priority != null){
                 priority.setText(task.getPriority());
             }
-//            if(task.getPriority() == "1"){
-//                linearLayout.setBackgroundColor(Color.RED);
-//            }
+            if(task.getPriority().equalsIgnoreCase("1")){
+                view.setBackgroundColor(Color.RED);
+            }else if(task.getPriority().equalsIgnoreCase("2")){
+                view.setBackgroundColor(Color.BLUE);
+            }
 
         }
         return view;
