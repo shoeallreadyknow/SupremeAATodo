@@ -1,14 +1,18 @@
 package android.supremeaa.todo.Controller;
 
 import android.content.Context;
+import android.supremeaa.todo.Model.Task;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Student on 2/26/2015.
@@ -37,5 +41,22 @@ public final class TaskSerializer {
             e.printStackTrace();
         }
         return jsonArray;
+    }
+    public static List<Task> returnList(JSONArray jsonArray){
+        List<Task> taskList = new ArrayList<Task>();
+
+        try {
+            for(int i = 0; i < jsonArray.length(); i ++){
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String title = jsonObject.getString("title");
+                String date = jsonObject.getString("date");
+                String priority = jsonObject.getString("priority");
+
+                taskList.add(new Task(title, date, priority));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return taskList;
     }
 }
