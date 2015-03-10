@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -33,7 +32,6 @@ public class TaskAdapter extends  ArrayAdapter<Task>{
         TextView title = null;
         TextView date = null;
         TextView priority = null;
-        LinearLayout linearLayout = null;
 
         if(view == null){
             LayoutInflater layoutInflater;
@@ -43,9 +41,10 @@ public class TaskAdapter extends  ArrayAdapter<Task>{
             title = (TextView)view.findViewById(R.id.title);
             date = (TextView)view.findViewById(R.id.date);
             priority = (TextView)view.findViewById(R.id.priority);
-            linearLayout = (LinearLayout)view.findViewById(R.id.linearLayout);
         }
+
         Task task = tasks.get(position);
+
         if(task != null){
             if(title != null){
                 title.setText(task.getTitle());
@@ -61,8 +60,8 @@ public class TaskAdapter extends  ArrayAdapter<Task>{
             }else if(task.getPriority().equalsIgnoreCase("2")){
                 view.setBackgroundColor(Color.BLUE);
             }
-
         }
+
         return view;
     }
 }

@@ -12,7 +12,15 @@ import org.json.JSONArray;
 
 import java.util.List;
 
-
+/**
+ * <h1>TodoApp</h1>
+ * This to do App Allows users to create tasks that they must complete,
+ * and assist them in completing them in the quickest most efficient way
+ * possible
+ * @author Philipp Faraee
+ * @version 1.0
+ * @since Monday, February 23, 2015 4:37:47 PM
+ */
 public class TodoActivity extends Activity  {
     public static Context context;
     public static ListView listView;
