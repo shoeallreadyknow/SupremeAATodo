@@ -12,6 +12,31 @@
         android:layout_centerHorizontal="true"
         android:textSize="70px"
 
+
+        />
+    <TextView
+        android:id="@+id/title"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+
+
    />
+    <TextView
+        android:id="@+id/date"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+
+
+        />
+    <TextView
+        android:id="@+id/priority"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+
+
+        />
 
 </RelativeLayout>
