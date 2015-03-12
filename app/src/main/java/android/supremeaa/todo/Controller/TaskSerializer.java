@@ -8,6 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,19 +19,19 @@ import java.util.List;
 /**
  * Created by Student on 2/26/2015.
  */
-public final class TaskSerializer {
+public class TaskSerializer {
     /**
      * This methood is used to parse JSONArrays from json files.
-     * @param c this gets the applications context, which allows the function to access the
+     * @param appContext this gets the applications context, which allows the function to access the
      *          assets folder.
      * @return JSONArray jsonArray parsed from taskdata.json file.
      */
-    public static JSONArray parseJSONFromAsset(Context c) {
+    public static JSONArray parseJSONFromAsset(Context appContext) {
         JSONArray jsonArray = null;
-        InputStream is = null;
+        FileInputStream is = null;
 
         try {
-            is = c.getAssets().open("JSON/taskdata.json");
+            is = appContext.openFileInput("taskdata.json");;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,7 +60,7 @@ public final class TaskSerializer {
      * @return taskList List of Task Objects
      * @see android.supremeaa.todo.Model.Task
      */
-    public static List<Task> returnList(JSONArray jsonArray){
+    public static List<Task> toTaskList(JSONArray jsonArray){
         List<Task> taskList = new ArrayList<Task>();
 
         try {
@@ -76,4 +78,46 @@ public final class TaskSerializer {
 
         return taskList;
     }
+    public static JSONArray toJSONArray(List<Task> taskList){
+        JSONArray jsonArray = new JSONArray();
+
+        try {
+             for(int i = 0; i < taskList.size(); i++){
+                JSONObject jsonObject = new JSONObject();
+                Task task = taskList.get(i);
+
+                jsonObject.put("title", task.getTitle());
+                jsonObject.put("date", task.getDate());
+                jsonObject.put("priority", task.getPriority());
+
+                jsonArray.put(i,jsonObject);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return jsonArray;
+    }
+    public static List<Task> deleteFirstTask(List<Task> taskList){
+        if(taskList != null) {
+            taskList.remove(0);
+        }
+        return taskList;
+    }
+    public static boolean saveAppJSONFile( Context appContext, final String json ){
+        try{
+            final FileOutputStream fos = appContext.openFileOutput("taskdata.json",Context.MODE_PRIVATE);
+            fos.write( json.getBytes() );
+            fos.close();
+            return true;
+        }
+        catch(IOException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public static boolean saveAppJSONFile( Context appContext, final JSONArray jsonArray ){
+        return saveAppJSONFile( appContext, jsonArray.toString() );
+    }
+
 }
