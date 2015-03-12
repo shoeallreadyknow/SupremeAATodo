@@ -36,7 +36,7 @@ public class TaskAdapter extends  ArrayAdapter<Task>{
         if(view == null){
             LayoutInflater layoutInflater;
             layoutInflater = LayoutInflater.from(getContext());
-            view = layoutInflater.inflate(R.layout.list_item, null);
+            view = layoutInflater.inflate(R.layout.center_layout, null);
 
             title = (TextView)view.findViewById(R.id.title);
             date = (TextView)view.findViewById(R.id.date);

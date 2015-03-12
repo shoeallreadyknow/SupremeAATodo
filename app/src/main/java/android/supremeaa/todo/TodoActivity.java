@@ -2,13 +2,15 @@ package android.supremeaa.todo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.supremeaa.todo.Controller.TaskSerializer;
 import android.supremeaa.todo.Model.Task;
+import android.supremeaa.todo.Model.TaskAdapter;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -27,15 +29,7 @@ import java.util.List;
 public class TodoActivity extends Activity  {
     public static Context context;
     public static ListView listView;
-
-    private TextView display;
-    private Button changeDate;
-
-    private int year;
-    private int month;
-    private int day;
-
-    static final int DATE_PICKER_ID = 1111;
+    private List<Task> taskList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -44,12 +38,11 @@ public class TodoActivity extends Activity  {
 
         TodoActivity.context = getApplicationContext();
         JSONArray jsonArray = TaskSerializer.parseJSONFromAsset(TodoActivity.context);
-        List<Task> taskList = TaskSerializer.returnList(jsonArray);
+        taskList = TaskSerializer.toTaskList(jsonArray);
 
 //      *** TASK: COMBINE PHILLIP AND JUSTIN LAYOUTS ***
 //        listView = (ListView)findViewById(R.id.listView);
 //        TaskAdapter adapter = new TaskAdapter(this, R.layout.list_item, taskList);
-//
 //        listView.setAdapter(adapter);
 
         setContentView(R.layout.activity_todo);
@@ -70,10 +63,21 @@ public class TodoActivity extends Activity  {
         ArrayAdapter<String> listItemAdapter = new ArrayAdapter<String>(this, R.layout.center_layout, R.id.title, listItems);
         ListView lv = (ListView) this.findViewById(R.id.listView);
         lv.setAdapter(listItemAdapter);
-    }
 
-    public void sendMessage(View view) {
-        // Do something in response to button click
+        Button button = (Button)findViewById(R.id.trash_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TaskSerializer.deleteFirstTask(taskList);
+                JSONArray saveJSONArray = TaskSerializer.toJSONArray(taskList);
+                TaskSerializer.saveAppJSONFile(TodoActivity.context, saveJSONArray);
+                finish();
+                startActivity(getIntent());
+            }
+        });
+        
+        JSONArray saveJSONArray = TaskSerializer.toJSONArray(taskList);
+        TaskSerializer.saveAppJSONFile(TodoActivity.context, saveJSONArray);
     }
 
 }
