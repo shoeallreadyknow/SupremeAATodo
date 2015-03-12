@@ -5,12 +5,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.supremeaa.todo.Controller.TaskSerializer;
 import android.supremeaa.todo.Model.Task;
-import android.supremeaa.todo.Model.TaskAdapter;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Button;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 
@@ -29,10 +28,20 @@ public class TodoActivity extends Activity  {
     public static Context context;
     public static ListView listView;
 
+    private TextView display;
+    private Button changeDate;
+
+    private int year;
+    private int month;
+    private int day;
+
+    static final int DATE_PICKER_ID = 1111;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo);
+
         TodoActivity.context = getApplicationContext();
         JSONArray jsonArray = TaskSerializer.parseJSONFromAsset(TodoActivity.context);
         List<Task> taskList = TaskSerializer.returnList(jsonArray);
@@ -50,7 +59,6 @@ public class TodoActivity extends Activity  {
         String wash_car = "Wash The Car";
         String walk_dog = "Walk The Dog";
 
-
         String[] listItems = new String[5];
         listItems[0] = clean_room;
         listItems[1] = mow_lawn;
@@ -59,10 +67,11 @@ public class TodoActivity extends Activity  {
         listItems[4] = walk_dog;
 
 
-        ArrayAdapter<String> listItemAdapter = new ArrayAdapter<String>(this, R.layout.center_layout, R.id.taskName, listItems);
+        ArrayAdapter<String> listItemAdapter = new ArrayAdapter<String>(this, R.layout.center_layout, R.id.title, listItems);
         ListView lv = (ListView) this.findViewById(R.id.listView);
         lv.setAdapter(listItemAdapter);
     }
+
     public void sendMessage(View view) {
         // Do something in response to button click
     }
