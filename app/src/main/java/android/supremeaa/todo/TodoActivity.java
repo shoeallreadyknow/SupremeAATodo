@@ -1,20 +1,28 @@
 package android.supremeaa.todo;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.supremeaa.todo.Controller.TaskSerializer;
 import android.supremeaa.todo.Model.Task;
 import android.supremeaa.todo.Model.TaskAdapter;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -31,38 +39,49 @@ public class TodoActivity extends Activity  {
     public static ListView listView;
     private List<Task> taskList;
 
+    private TextView display;
+    private Button changeDate;
+    private EditText editText;
+
+    private int year;
+    private int month;
+    private int day;
+
+    public String title;
+    public String date;
+    public String priority;
+
+    static final int DATE_PICKER_ID = 1111;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_todo);
+        setContentView(R.layout.todo_loadout);
 
         TodoActivity.context = getApplicationContext();
         JSONArray jsonArray = TaskSerializer.parseJSONFromAsset(TodoActivity.context);
         taskList = TaskSerializer.toTaskList(jsonArray);
 
-//      *** TASK: COMBINE PHILLIP AND JUSTIN LAYOUTS ***
-//        listView = (ListView)findViewById(R.id.listView);
-//        TaskAdapter adapter = new TaskAdapter(this, R.layout.list_item, taskList);
-//        listView.setAdapter(adapter);
+        editText = (EditText)findViewById(R.id.editText);
+        display = (TextView) findViewById(R.id.display);
+        changeDate = (Button)findViewById(R.id.setDate);
+        listView = (ListView)findViewById(R.id.listView);
+        TaskAdapter adapter = new TaskAdapter(this, R.layout.list_item, taskList);
+        listView.setAdapter(adapter);
 
-        setContentView(R.layout.activity_todo);
-        String clean_room = "Clean The Room";
-        String mow_lawn = "Mow Lawn";
-        String go_to_store = "Go To The Store";
-        String wash_car = "Wash The Car";
-        String walk_dog = "Walk The Dog";
+        final Calendar calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        String[] listItems = new String[5];
-        listItems[0] = clean_room;
-        listItems[1] = mow_lawn;
-        listItems[2] = go_to_store;
-        listItems[3] = wash_car;
-        listItems[4] = walk_dog;
+        display.setText(new StringBuilder().append(month + 1).append("-").append(day).append("-").append(year).append(" "));
+        changeDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(DATE_PICKER_ID);
+            }
+        });
 
-
-        ArrayAdapter<String> listItemAdapter = new ArrayAdapter<String>(this, R.layout.center_layout, R.id.title, listItems);
-        ListView lv = (ListView) this.findViewById(R.id.listView);
-        lv.setAdapter(listItemAdapter);
 
         Button button = (Button)findViewById(R.id.trash_button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -75,9 +94,61 @@ public class TodoActivity extends Activity  {
                 startActivity(getIntent());
             }
         });
+        Button addTaskButton = (Button)findViewById(R.id.addTask);
+        addTaskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                title = editText.getText().toString();
+                date = new StringBuilder().append(month + 1).append("-").append(day).append("-").append(year).append(" ").toString();
+                taskList.add(new Task(title, date, priority));
+                JSONArray saveJSONArray = TaskSerializer.toJSONArray(taskList);
+                TaskSerializer.saveAppJSONFile(TodoActivity.context, saveJSONArray);
+                finish();
+                startActivity(getIntent());
+            }
+        });
+
         
         JSONArray saveJSONArray = TaskSerializer.toJSONArray(taskList);
         TaskSerializer.saveAppJSONFile(TodoActivity.context, saveJSONArray);
+    }
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id){
+            case DATE_PICKER_ID:
+                return new DatePickerDialog(this, pickerListener, year, month, day);
+        }
+        return null;
+    }
+    private DatePickerDialog.OnDateSetListener pickerListener = new DatePickerDialog.OnDateSetListener(){
+        @Override
+        public void onDateSet(DatePicker view, int selectedYear, int monthOfYear, int dayOfMonth) {
+        year = selectedYear;
+        month = monthOfYear;
+        day = dayOfMonth;
+
+        display.setText(new StringBuilder().append(month + 1).append("-").append(day).append("-").append(year).append(" "));
+        }
+    };
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.highestP:
+                if (checked)
+                    priority =  "1";
+                break;
+            case R.id.highP:
+                if (checked)
+                    priority =  "2";
+                break;
+            case R.id.lowP:
+                if (checked)
+                    priority = "3";
+                    break;
+        }
+
     }
 
 }
