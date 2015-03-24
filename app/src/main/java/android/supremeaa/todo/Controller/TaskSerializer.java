@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +28,10 @@ public class TaskSerializer {
      */
     public static JSONArray parseJSONFromAsset(Context appContext) {
         JSONArray jsonArray = null;
-        FileInputStream is = null;
+        InputStream is = null;
 
         try {
-            is = appContext.openFileInput("taskdata.json");;
+            is = appContext.getAssets().open("JSON/taskdata.json");;
         } catch (IOException e) {
             e.printStackTrace();
         }
