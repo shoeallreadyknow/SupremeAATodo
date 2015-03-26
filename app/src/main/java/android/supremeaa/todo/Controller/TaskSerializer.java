@@ -7,12 +7,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,12 +32,48 @@ public class TaskSerializer {
      *          assets folder.
      * @return JSONArray jsonArray parsed from taskdata.json file.
      */
+    public static JSONArray parseJSONFromFile(Context appContext) {
+        JSONArray jsonArray = null;
+        InputStream is = null;
+
+        try {
+            if(appContext.openFileInput("taskdata.json") != null) {
+                is = appContext.openFileInput("taskdata.json");
+            } else {
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(appContext.openFileOutput("taskdata.json", Context.MODE_PRIVATE));
+                outputStreamWriter.write("");
+                outputStreamWriter.close();
+
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder stringBuilder = new StringBuilder();
+
+        String string;
+
+        try {
+            while((string = reader.readLine()) !=null) stringBuilder.append(string);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            jsonArray = new JSONArray(stringBuilder.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return jsonArray;
+    }
     public static JSONArray parseJSONFromAsset(Context appContext) {
         JSONArray jsonArray = null;
         InputStream is = null;
 
         try {
-            is = appContext.getAssets().open("JSON/taskdata.json");;
+            is = appContext.getAssets().open("JSON/taskdata.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -106,9 +148,10 @@ public class TaskSerializer {
     }
     public static boolean saveAppJSONFile( Context appContext, final String json ){
         try{
-            final FileOutputStream fos = appContext.openFileOutput("taskdata.json",Context.MODE_PRIVATE);
-            fos.write( json.getBytes() );
-            fos.close();
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(appContext.openFileOutput("taskdata.json", Context.MODE_PRIVATE));
+            outputStreamWriter.write(json);
+            outputStreamWriter.close();
+
             return true;
         }
         catch(IOException e){

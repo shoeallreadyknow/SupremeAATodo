@@ -5,7 +5,9 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.supremeaa.todo.Controller.TaskSerializer;
 import android.supremeaa.todo.Model.Task;
 import android.supremeaa.todo.Model.TaskAdapter;
@@ -59,8 +61,16 @@ public class TodoActivity extends Activity  {
         setContentView(R.layout.todo_loadout);
 
         TodoActivity.context = getApplicationContext();
-        JSONArray jsonArray = TaskSerializer.parseJSONFromAsset(TodoActivity.context);
-        taskList = TaskSerializer.toTaskList(jsonArray);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if(!prefs.getBoolean("firstTime", false)) {
+            TaskSerializer.saveAppJSONFile(context, TaskSerializer.parseJSONFromAsset(context));
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("firstTime", true);
+            editor.commit();
+        }
+        JSONArray jsonArray = TaskSerializer.parseJSONFromFile(TodoActivity.context);
+            taskList = TaskSerializer.toTaskList(jsonArray);
 
         editText = (EditText)findViewById(R.id.editText);
         display = (TextView) findViewById(R.id.display);

@@ -36,7 +36,7 @@ public class TaskAdapter extends  ArrayAdapter<Task>{
         if(view == null){
             LayoutInflater layoutInflater;
             layoutInflater = LayoutInflater.from(getContext());
-            view = layoutInflater.inflate(R.layout.center_layout, null);
+            view = layoutInflater.inflate(R.layout.list_item, null);
 
             title = (TextView)view.findViewById(R.id.title);
             date = (TextView)view.findViewById(R.id.date);
@@ -59,6 +59,8 @@ public class TaskAdapter extends  ArrayAdapter<Task>{
                 view.setBackgroundColor(Color.RED);
             }else if(task.getPriority().equalsIgnoreCase("2")){
                 view.setBackgroundColor(Color.BLUE);
+            } else if(task.getPriority().equalsIgnoreCase("3")){
+                view.setBackgroundColor(Color.WHITE);
             }
         }
 
