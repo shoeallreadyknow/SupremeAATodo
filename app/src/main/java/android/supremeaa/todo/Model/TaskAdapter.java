@@ -15,10 +15,10 @@ import java.util.List;
  * Created by Student on 3/1/2015.
  */
 public class TaskAdapter extends  ArrayAdapter<Task>{
+    private List<Task> tasks;
     public TaskAdapter(Context context , int textViewResourceId) {
         super(context, textViewResourceId);
     }
-    private List<Task> tasks;
 
     public TaskAdapter(Context context, int resource, List<Task> task){
         super(context, resource, task);

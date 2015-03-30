@@ -7,17 +7,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +20,7 @@ import java.util.List;
  */
 public class TaskSerializer {
     /**
-     * This methood is used to parse JSONArrays from json files.
+     * This methood is used to parse JSONArrays from json files in the internal storage.
      * @param appContext this gets the applications context, which allows the function to access the
      *          assets folder.
      * @return JSONArray jsonArray parsed from taskdata.json file.
@@ -68,6 +61,12 @@ public class TaskSerializer {
 
         return jsonArray;
     }
+    /**
+     * This methood is used to parse JSONArrays from json files in the assets folder.
+     * @param appContext this gets the applications context, which allows the function to access the
+     *          assets folder.
+     * @return JSONArray jsonArray parsed from taskdata.json file.
+     */
     public static JSONArray parseJSONFromAsset(Context appContext) {
         JSONArray jsonArray = null;
         InputStream is = null;
@@ -106,7 +105,7 @@ public class TaskSerializer {
         List<Task> taskList = new ArrayList<Task>();
 
         try {
-            for(int i = 0; i < jsonArray.length(); i ++){
+            for(int i = 0; i < jsonArray.length(); i++){
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String title = jsonObject.getString("title");
                 String date = jsonObject.getString("date");
@@ -124,15 +123,14 @@ public class TaskSerializer {
         JSONArray jsonArray = new JSONArray();
 
         try {
-             for(int i = 0; i < taskList.size(); i++){
+             for(Task task : taskList){
                 JSONObject jsonObject = new JSONObject();
-                Task task = taskList.get(i);
 
                 jsonObject.put("title", task.getTitle());
                 jsonObject.put("date", task.getDate());
                 jsonObject.put("priority", task.getPriority());
 
-                jsonArray.put(i,jsonObject);
+                jsonArray.put(jsonObject);
             }
         } catch (JSONException e) {
             e.printStackTrace();
