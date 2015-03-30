@@ -33,15 +33,15 @@ public class TaskAdapter extends  ArrayAdapter<Task>{
         TextView date = null;
         TextView priority = null;
 
-        if(view == null){
+        if(view == null) {
             LayoutInflater layoutInflater;
             layoutInflater = LayoutInflater.from(getContext());
             view = layoutInflater.inflate(R.layout.list_item, null);
-
-            title = (TextView)view.findViewById(R.id.title);
-            date = (TextView)view.findViewById(R.id.date);
-            priority = (TextView)view.findViewById(R.id.priority);
         }
+
+        title = (TextView)view.findViewById(R.id.title);
+        date = (TextView)view.findViewById(R.id.date);
+        priority = (TextView)view.findViewById(R.id.priority);
 
         Task task = tasks.get(position);
 
