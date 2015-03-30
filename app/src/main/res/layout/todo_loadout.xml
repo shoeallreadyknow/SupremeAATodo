@@ -1,91 +1,113 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".todo">
-    <Button
-        android:id="@+id/setDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Set Date"
-        android:onClick="showDatePicker"
-        android:layout_toStartOf="@+id/addTask"
-        android:layout_below="@+id/editText"
-        android:layout_toLeftOf="@+id/addTask" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/display"
-        android:textSize="20sp"
-        android:textAppearance="?android:textAppearanceLarge"
-        android:layout_below="@+id/editText" />
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="text|textCapWords"
-        android:hint="Create new task"
-        android:textSize="20sp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-    <Button
-        android:layout_marginTop="30sp"
-        android:id="@+id/addTask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Add Task"
-        android:layout_below="@+id/priority"/>
-    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:checkedButton="@+id/checked"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/setDate"
-        android:id="@+id/priority"
-        android:layout_marginTop="20dp">
-        <RadioButton
-            android:id="@+id/lowP"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3"
-            android:onClick="onRadioButtonClicked"
-            android:layout_gravity="center"
-            android:textSize="25sp"/>
-        <RadioButton android:id="@+id/highP"
-            android:textSize="25sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2"
-            android:onClick="onRadioButtonClicked"
-            android:layout_gravity="center"/>
-        <RadioButton android:id="@+id/highestP"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:onClick="onRadioButtonClicked"
-            android:layout_gravity="center"
-            android:textSize="25sp"/>
-    </RadioGroup>
 
-    <Button
-        android:id="@+id/trash_button"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/trash"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
-    <ListView
-        android:paddingTop="20dp"
-        android:id ="@+id/listView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/addTask" />
+        <RelativeLayout
+            android:id="@+id/newTaskLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/setDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set Date"
+                android:onClick="showDatePicker"
+                android:layout_below="@+id/editText"
+                android:layout_toLeftOf="@+id/priority"
+                android:layout_toStartOf="@+id/priority" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/display"
+                android:textSize="20sp"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:layout_alignBottom="@+id/setDate"
+                android:layout_toRightOf="@+id/setDate"
+                android:layout_alignRight="@+id/editText"
+                android:layout_alignEnd="@+id/editText"
+                android:layout_alignTop="@+id/setDate"
+                android:gravity="center_vertical|end" />
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text|textCapWords"
+                android:hint="Create new task"
+                android:textSize="20sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignLeft="@+id/setDate"
+                android:layout_alignStart="@+id/setDate"
+                android:layout_alignRight="@+id/listView"
+                android:layout_alignEnd="@+id/listView" />
+
+            <Button
+                android:id="@+id/addTask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Task"
+                android:layout_below="@+id/priority"
+                android:layout_centerHorizontal="true" />
+
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:checkedButton="@+id/checked"
+                android:id="@+id/priority"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/setDate">
+                <RadioButton
+                    android:id="@+id/lowP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3"
+                    android:onClick="onRadioButtonClicked"
+                    android:layout_gravity="center"
+                    android:textSize="20sp" />
+                <RadioButton android:id="@+id/highP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2"
+                    android:onClick="onRadioButtonClicked"
+                    android:layout_gravity="center"
+                    android:textSize="20sp" />
+                <RadioButton android:id="@+id/highestP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:onClick="onRadioButtonClicked"
+                    android:layout_gravity="center"
+                    android:textSize="20sp" />
+            </RadioGroup>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/listViewLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <ListView
+                android:paddingTop="20dp"
+                android:id ="@+id/listView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/addTask" />
+        </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

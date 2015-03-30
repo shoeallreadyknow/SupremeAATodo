@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.supremeaa.todo.Controller.TaskSerializer;
+import android.supremeaa.todo.Model.AnimatingRelativeLayout;
 import android.supremeaa.todo.Model.Task;
 import android.supremeaa.todo.Model.TaskAdapter;
 import android.view.Menu;
@@ -20,6 +21,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -38,6 +40,10 @@ import java.util.List;
  */
 public class TodoActivity extends Activity  {
     public static Context context;
+
+    public static RelativeLayout newTaskLayout;
+    public static RelativeLayout listViewLayout;
+
     public static ListView listView;
     private List<Task> taskList;
 
@@ -61,6 +67,7 @@ public class TodoActivity extends Activity  {
         setContentView(R.layout.todo_loadout);
 
         TodoActivity.context = getApplicationContext();
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if(!prefs.getBoolean("firstTime", false)) {
             TaskSerializer.saveAppJSONFile(context, TaskSerializer.parseJSONFromAsset(context));
@@ -69,7 +76,7 @@ public class TodoActivity extends Activity  {
             editor.putBoolean("firstTime", true);
             editor.commit();
         }
-        JSONArray jsonArray = TaskSerializer.parseJSONFromFile(TodoActivity.context);
+        JSONArray jsonArray = TaskSerializer.parseJSONFromFile(context);
             taskList = TaskSerializer.toTaskList(jsonArray);
 
         editText = (EditText)findViewById(R.id.editText);
@@ -93,17 +100,17 @@ public class TodoActivity extends Activity  {
         });
 
 
-        Button button = (Button)findViewById(R.id.trash_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TaskSerializer.deleteFirstTask(taskList);
-                JSONArray saveJSONArray = TaskSerializer.toJSONArray(taskList);
-                TaskSerializer.saveAppJSONFile(TodoActivity.context, saveJSONArray);
-                finish();
-                startActivity(getIntent());
-            }
-        });
+        //Button button = (Button)findViewById(R.id.trash_button);
+        //button.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View v) {
+        //        TaskSerializer.deleteFirstTask(taskList);
+        //        JSONArray saveJSONArray = TaskSerializer.toJSONArray(taskList);
+        //        TaskSerializer.saveAppJSONFile(context, saveJSONArray);
+        //        finish();
+        //        startActivity(getIntent());
+         //   }
+        //});
         Button addTaskButton = (Button)findViewById(R.id.addTask);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +119,7 @@ public class TodoActivity extends Activity  {
                 date = new StringBuilder().append(month + 1).append("-").append(day).append("-").append(year).append(" ").toString();
                 taskList.add(new Task(title, date, priority));
                 JSONArray saveJSONArray = TaskSerializer.toJSONArray(taskList);
-                TaskSerializer.saveAppJSONFile(TodoActivity.context, saveJSONArray);
+                TaskSerializer.saveAppJSONFile(context, saveJSONArray);
                 finish();
                 startActivity(getIntent());
             }
@@ -120,7 +127,7 @@ public class TodoActivity extends Activity  {
 
         
         JSONArray saveJSONArray = TaskSerializer.toJSONArray(taskList);
-        TaskSerializer.saveAppJSONFile(TodoActivity.context, saveJSONArray);
+        TaskSerializer.saveAppJSONFile(context, saveJSONArray);
     }
     @Override
     protected Dialog onCreateDialog(int id) {
