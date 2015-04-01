@@ -13,7 +13,13 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <RelativeLayout
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:id="@+id/newTaskButton" />
+
+        <android.supremeaa.todo.Model.AnimatingRelativeLayout
             android:id="@+id/newTaskLayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
@@ -23,10 +29,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Set Date"
-                android:onClick="showDatePicker"
                 android:layout_below="@+id/editText"
                 android:layout_toLeftOf="@+id/priority"
-                android:layout_toStartOf="@+id/priority" />
+                android:layout_toStartOf="@+id/priority"
+                tools:ignore="HardcodedText,ObsoleteLayoutParam" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -39,7 +45,8 @@
                 android:layout_alignRight="@+id/editText"
                 android:layout_alignEnd="@+id/editText"
                 android:layout_alignTop="@+id/setDate"
-                android:gravity="center_vertical|end" />
+                android:gravity="center_vertical|end"
+                tools:ignore="ObsoleteLayoutParam,RtlHardcoded" />
 
             <EditText
                 android:id="@+id/editText"
@@ -52,7 +59,8 @@
                 android:layout_alignLeft="@+id/setDate"
                 android:layout_alignStart="@+id/setDate"
                 android:layout_alignRight="@+id/listView"
-                android:layout_alignEnd="@+id/listView" />
+                android:layout_alignEnd="@+id/listView"
+                tools:ignore="HardcodedText,NotSibling,ObsoleteLayoutParam" />
 
             <Button
                 android:id="@+id/addTask"
@@ -60,7 +68,8 @@
                 android:layout_height="wrap_content"
                 android:text="Add Task"
                 android:layout_below="@+id/priority"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                tools:ignore="HardcodedText,ObsoleteLayoutParam" />
 
             <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="wrap_content"
@@ -69,7 +78,8 @@
                 android:checkedButton="@+id/checked"
                 android:id="@+id/priority"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@+id/setDate">
+                android:layout_below="@+id/setDate"
+                tools:ignore="ObsoleteLayoutParam">
                 <RadioButton
                     android:id="@+id/lowP"
                     android:layout_width="wrap_content"
@@ -77,23 +87,26 @@
                     android:text="3"
                     android:onClick="onRadioButtonClicked"
                     android:layout_gravity="center"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    tools:ignore="HardcodedText" />
                 <RadioButton android:id="@+id/highP"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2"
                     android:onClick="onRadioButtonClicked"
                     android:layout_gravity="center"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    tools:ignore="HardcodedText" />
                 <RadioButton android:id="@+id/highestP"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1"
                     android:onClick="onRadioButtonClicked"
                     android:layout_gravity="center"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    tools:ignore="HardcodedText" />
             </RadioGroup>
-        </RelativeLayout>
+        </android.supremeaa.todo.Model.AnimatingRelativeLayout>
 
         <RelativeLayout
             android:id="@+id/listViewLayout"
@@ -106,8 +119,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@+id/addTask" />
+                android:layout_below="@+id/addTask"
+                tools:ignore="NotSibling" />
         </RelativeLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

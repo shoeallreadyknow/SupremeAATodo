@@ -39,8 +39,8 @@ public class AnimatingRelativeLayout extends RelativeLayout
 
     private void initAnimations()
     {
-        inAnimation = (AnimationSet) AnimationUtils.loadAnimation(context, R.anim.in_animation);
-        outAnimation = (Animation) AnimationUtils.loadAnimation(context, R.anim.out_animation);
+        inAnimation = AnimationUtils.loadAnimation(context, R.anim.in_animation);
+        outAnimation = AnimationUtils.loadAnimation(context, R.anim.out_animation);
     }
 
     public void show()

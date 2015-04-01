@@ -48,7 +48,7 @@ public class TodoActivity extends Activity  {
     private List<Task> taskList;
 
     private TextView display;
-    private Button changeDate;
+    private Button changeDate, newTaskButton;
     private EditText editText;
 
     private int year;
@@ -66,6 +66,7 @@ public class TodoActivity extends Activity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.todo_loadout);
 
+
         TodoActivity.context = getApplicationContext();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -82,7 +83,24 @@ public class TodoActivity extends Activity  {
         editText = (EditText)findViewById(R.id.editText);
         display = (TextView) findViewById(R.id.display);
         changeDate = (Button)findViewById(R.id.setDate);
+        newTaskButton = (Button)findViewById(R.id.newTaskButton);
         listView = (ListView)findViewById(R.id.listView);
+
+        final AnimatingRelativeLayout animatingRelativeLayout = (AnimatingRelativeLayout)findViewById(R.id.newTaskLayout);
+        animatingRelativeLayout.hide();
+
+        newTaskButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(!animatingRelativeLayout.isVisible()) {
+                    animatingRelativeLayout.show();
+                } else if(animatingRelativeLayout.isVisible()){
+                    animatingRelativeLayout.hide();
+                }
+            }
+        });
+
+
         TaskAdapter adapter = new TaskAdapter(this, R.layout.list_item, taskList);
         listView.setAdapter(adapter);
 
