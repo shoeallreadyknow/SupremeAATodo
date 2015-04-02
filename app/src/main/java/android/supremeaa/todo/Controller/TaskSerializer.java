@@ -144,6 +144,12 @@ public class TaskSerializer {
         }
         return taskList;
     }
+    public static List<Task> deleteTask(List<Task> taskList, int position){
+        if(taskList != null) {
+            taskList.remove(position);
+        }
+        return taskList;
+    }
     public static boolean saveAppJSONFile( Context appContext, final String json ){
         try{
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(appContext.openFileOutput("taskdata.json", Context.MODE_PRIVATE));

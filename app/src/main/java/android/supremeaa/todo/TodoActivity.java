@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,10 +11,7 @@ import android.supremeaa.todo.Controller.TaskSerializer;
 import android.supremeaa.todo.Model.AnimatingRelativeLayout;
 import android.supremeaa.todo.Model.Task;
 import android.supremeaa.todo.Model.TaskAdapter;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -48,7 +44,7 @@ public class TodoActivity extends Activity  {
     private List<Task> taskList;
 
     private TextView display;
-    private Button changeDate, newTaskButton;
+    private Button changeDate, newTaskButton, deleteButton;
     private EditText editText;
 
     private int year;
@@ -66,7 +62,7 @@ public class TodoActivity extends Activity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.todo_loadout);
 
-
+        Activity todoActivity = this;
         TodoActivity.context = getApplicationContext();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -100,8 +96,7 @@ public class TodoActivity extends Activity  {
             }
         });
 
-
-        TaskAdapter adapter = new TaskAdapter(this, R.layout.list_item, taskList);
+        TaskAdapter adapter = new TaskAdapter(this, R.layout.list_item, taskList, todoActivity);
         listView.setAdapter(adapter);
 
         final Calendar calendar = Calendar.getInstance();
@@ -117,18 +112,6 @@ public class TodoActivity extends Activity  {
             }
         });
 
-
-        //Button button = (Button)findViewById(R.id.trash_button);
-        //button.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View v) {
-        //        TaskSerializer.deleteFirstTask(taskList);
-        //        JSONArray saveJSONArray = TaskSerializer.toJSONArray(taskList);
-        //        TaskSerializer.saveAppJSONFile(context, saveJSONArray);
-        //        finish();
-        //        startActivity(getIntent());
-         //   }
-        //});
         Button addTaskButton = (Button)findViewById(R.id.addTask);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +126,6 @@ public class TodoActivity extends Activity  {
             }
         });
 
-        
         JSONArray saveJSONArray = TaskSerializer.toJSONArray(taskList);
         TaskSerializer.saveAppJSONFile(context, saveJSONArray);
     }
