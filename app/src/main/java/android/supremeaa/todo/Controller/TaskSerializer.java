@@ -13,12 +13,22 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * Created by Student on 2/26/2015.
  */
 public class TaskSerializer {
+    static class RecipeCompare implements Comparator<Task> {
+
+        @Override
+        public int compare(Task o1, Task o2) {
+            // write comparison logic here like below , it's just a sample
+            return o1.getPriority().compareTo(o2.getPriority());
+        }
+    }
     /**
      * This methood is used to parse JSONArrays from json files in the internal storage.
      * @param appContext this gets the applications context, which allows the function to access the
@@ -112,10 +122,13 @@ public class TaskSerializer {
                 String priority = jsonObject.getString("priority");
 
                 taskList.add(new Task(title, date, priority));
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        Collections.sort(taskList, new RecipeCompare());
 
         return taskList;
     }

@@ -11,6 +11,7 @@ import android.supremeaa.todo.Controller.TaskSerializer;
 import android.supremeaa.todo.Model.AnimatingRelativeLayout;
 import android.supremeaa.todo.Model.Task;
 import android.supremeaa.todo.Model.TaskAdapter;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 
@@ -31,7 +33,7 @@ import java.util.List;
  * and assist them in completing them in the quickest most efficient way
  * possible
  * @author Philipp Faraee
- * @version 1.0.3
+ * @version 1.0.4
  * @since Monday, February 23, 2015 4:37:47 PM
  */
 public class TodoActivity extends Activity  {
@@ -63,7 +65,7 @@ public class TodoActivity extends Activity  {
         setContentView(R.layout.todo_loadout);
 
         Activity todoActivity = this;
-        TodoActivity.context = getApplicationContext();
+        context = getApplicationContext();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if(!prefs.getBoolean("firstTime", false)) {
@@ -118,11 +120,21 @@ public class TodoActivity extends Activity  {
             public void onClick(View v) {
                 title = editText.getText().toString();
                 date = new StringBuilder().append(month + 1).append("-").append(day).append("-").append(year).append(" ").toString();
-                taskList.add(new Task(title, date, priority));
-                JSONArray saveJSONArray = TaskSerializer.toJSONArray(taskList);
-                TaskSerializer.saveAppJSONFile(context, saveJSONArray);
-                finish();
-                startActivity(getIntent());
+                if(!title.matches(".*[a-zA-Z]+.*")) {
+                    Toast toast = Toast.makeText(context, "Please select a title", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                    toast.show();
+                } else if(priority == null) {
+                    Toast toast = Toast.makeText(context, "Please select a priority", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                    toast.show();
+                } else {
+                    taskList.add(new Task(title, date, priority));
+                    JSONArray saveJSONArray = TaskSerializer.toJSONArray(taskList);
+                    TaskSerializer.saveAppJSONFile(context, saveJSONArray);
+                    finish();
+                    startActivity(getIntent());
+                }
             }
         });
 

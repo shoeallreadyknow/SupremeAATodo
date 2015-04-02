@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.supremeaa.todo.Controller.TaskSerializer;
 import android.supremeaa.todo.R;
-import android.supremeaa.todo.TodoActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +54,7 @@ public class TaskAdapter extends ArrayAdapter<Task>{
                 public void onClick(View v) {
                     TaskSerializer.deleteTask(tasks, position);
                     JSONArray saveJSONArray = TaskSerializer.toJSONArray(tasks);
-                    TaskSerializer.saveAppJSONFile(TodoActivity.context, saveJSONArray);
+                    TaskSerializer.saveAppJSONFile(context, saveJSONArray);
                     activity.finish();
                     activity.startActivity(activity.getIntent());
                 }
