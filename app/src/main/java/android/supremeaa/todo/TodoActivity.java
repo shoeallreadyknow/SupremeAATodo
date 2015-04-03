@@ -33,7 +33,7 @@ import java.util.List;
  * and assist them in completing them in the quickest most efficient way
  * possible
  * @author Philipp Faraee
- * @version 1.0.4
+ * @version 1.1.0
  * @since Monday, February 23, 2015 4:37:47 PM
  */
 public class TodoActivity extends Activity  {
