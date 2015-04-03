@@ -11,6 +11,7 @@ import android.supremeaa.todo.Controller.TaskSerializer;
 import android.supremeaa.todo.Model.AnimatingRelativeLayout;
 import android.supremeaa.todo.Model.Task;
 import android.supremeaa.todo.Model.TaskAdapter;
+import android.supremeaa.todo.Model.UpdateViewTask;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +19,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,15 +38,11 @@ import java.util.List;
  */
 public class TodoActivity extends Activity  {
     public static Context context;
-
-    public static RelativeLayout newTaskLayout;
-    public static RelativeLayout listViewLayout;
-
     public static ListView listView;
     private List<Task> taskList;
 
     private TextView display;
-    private Button changeDate, newTaskButton, deleteButton;
+    private Button changeDate, newTaskButton;
     private EditText editText;
 
     private int year;
@@ -56,6 +52,8 @@ public class TodoActivity extends Activity  {
     public String title;
     public String date;
     public String priority;
+
+    public static TaskAdapter adapter;
 
     static final int DATE_PICKER_ID = 1111;
 
@@ -76,7 +74,7 @@ public class TodoActivity extends Activity  {
             editor.commit();
         }
         JSONArray jsonArray = TaskSerializer.parseJSONFromFile(context);
-            taskList = TaskSerializer.toTaskList(jsonArray);
+        taskList = TaskSerializer.toTaskList(jsonArray);
 
         editText = (EditText)findViewById(R.id.editText);
         display = (TextView) findViewById(R.id.display);
@@ -98,7 +96,7 @@ public class TodoActivity extends Activity  {
             }
         });
 
-        TaskAdapter adapter = new TaskAdapter(this, R.layout.list_item, taskList, todoActivity);
+        adapter = new TaskAdapter(this, R.layout.list_item, taskList, todoActivity);
         listView.setAdapter(adapter);
 
         final Calendar calendar = Calendar.getInstance();
@@ -130,16 +128,10 @@ public class TodoActivity extends Activity  {
                     toast.show();
                 } else {
                     taskList.add(new Task(title, date, priority));
-                    JSONArray saveJSONArray = TaskSerializer.toJSONArray(taskList);
-                    TaskSerializer.saveAppJSONFile(context, saveJSONArray);
-                    finish();
-                    startActivity(getIntent());
+                    new UpdateViewTask().execute(taskList);
                 }
             }
         });
-
-        JSONArray saveJSONArray = TaskSerializer.toJSONArray(taskList);
-        TaskSerializer.saveAppJSONFile(context, saveJSONArray);
     }
     @Override
     protected Dialog onCreateDialog(int id) {
